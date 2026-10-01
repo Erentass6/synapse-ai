@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  synapse-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: synapse_engine
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: synapse_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
