@@ -67,6 +67,13 @@ export interface TranslationDictionary {
   archFallbackDesc: string;
   footerTagline: string;
   footerStack: string;
+  agentReportTitle: string;
+  sampleBadCode: string;
+  sampleReactLeak: string;
+  sampleSecurity: string;
+  howToUseStep1: string;
+  howToUseStep2: string;
+  howToUseStep3: string;
 }
 
 export const translations: Record<Language, TranslationDictionary> = {
@@ -137,6 +144,13 @@ export const translations: Record<Language, TranslationDictionary> = {
     archFallbackDesc: "Recruiters and contributors can run the entire test suite and UI immediately without needing paid API keys, while live Gemini and OpenAI gateways activate automatically via environment variables.",
     footerTagline: "Synapse Engine • Enterprise-Ready AI Agent Orchestration",
     footerStack: "Built with Next.js 15, TypeScript, Tailwind & Native Test Suite",
+    agentReportTitle: "AI Agent Analysis & Evaluation Report",
+    sampleBadCode: "Buggy Code (Race Condition)",
+    sampleReactLeak: "React Memory Leak",
+    sampleSecurity: "SQL/Prompt Injection Scan",
+    howToUseStep1: "1. Choose a workflow template or paste your code snippet below",
+    howToUseStep2: "2. Click 'Run Workflow' to watch the multi-agent DAG execute live",
+    howToUseStep3: "3. Inspect the AI review and latency waterfall metrics",
   },
   tr: {
     appNameSubtitle: "Yapay Zeka Ajan DAG Motoru & Telemetri Platformu",
@@ -205,6 +219,13 @@ export const translations: Record<Language, TranslationDictionary> = {
     archFallbackDesc: "İşverenlerin ve geliştiricilerin ücretli API anahtarı girmeden tüm sistemi anında test edebilmesi için gerçekçi bir simülasyon motoru içerir.",
     footerTagline: "Synapse Engine • Kurumsal Düzeyde Yapay Zeka Ajan Orkestrasyonu",
     footerStack: "Next.js 15, TypeScript, Tailwind ve Yerel Test Paketi ile Geliştirildi",
+    agentReportTitle: "Yapay Zeka Ajan Analiz & Değerlendirme Raporu",
+    sampleBadCode: "Hatalı Kod (Race Condition)",
+    sampleReactLeak: "React Bellek Sızıntısı",
+    sampleSecurity: "Güvenlik & Injection Açığı",
+    howToUseStep1: "1. Yukarıdan şablon seçin veya aşağıdaki kutuya test etmek istediğiniz kodu yapıştırın",
+    howToUseStep2: "2. 'Akışı Çalıştır' butonuna tıklayarak ajanların adımlarını canlı izleyin",
+    howToUseStep3: "3. Üretilen raporu ve milisaniye bazında şelale gecikmelerini inceleyin",
   },
   es: {
     appNameSubtitle: "Motor DAG de Agentes IA y Plataforma de Observabilidad",
@@ -273,6 +294,13 @@ export const translations: Record<Language, TranslationDictionary> = {
     archFallbackDesc: "Permite a reclutadores probar la plataforma completa sin requerir claves de API privadas.",
     footerTagline: "Synapse Engine • Orquestación de Agentes IA de Nivel Empresarial",
     footerStack: "Desarrollado con Next.js 15, TypeScript, Tailwind y Pruebas Nativas",
+    agentReportTitle: "Informe de Análisis y Evaluación del Agente IA",
+    sampleBadCode: "Código con Error (Race Condition)",
+    sampleReactLeak: "Fuga de Memoria React",
+    sampleSecurity: "Escaneo de Inyecciones/Seguridad",
+    howToUseStep1: "1. Elija una plantilla o pegue su código en el cuadro inferior",
+    howToUseStep2: "2. Haga clic en 'Ejecutar Flujo' para ver la ejecución en vivo",
+    howToUseStep3: "3. Inspeccione el informe generado y las métricas de latencia",
   },
   de: {
     appNameSubtitle: "KI-Agenten DAG-Engine & Observability-Plattform",
@@ -341,6 +369,13 @@ export const translations: Record<Language, TranslationDictionary> = {
     archFallbackDesc: "Ermöglicht Personalentscheidern das sofortige Testen ohne Bereitstellung privater API-Schlüssel.",
     footerTagline: "Synapse Engine • Enterprise-Grade KI-Agenten-Orchestrierung",
     footerStack: "Erstellt mit Next.js 15, TypeScript, Tailwind & Nativer Test-Suite",
+    agentReportTitle: "KI-Agent Analyse- & Bewertungsbericht",
+    sampleBadCode: "Fehlerhafter Code (Race Condition)",
+    sampleReactLeak: "React Speicherleck",
+    sampleSecurity: "Sicherheitsprüfung / Injection",
+    howToUseStep1: "1. Vorlage wählen oder eigenen Code in das Textfeld einfügen",
+    howToUseStep2: "2. 'Workflow Ausführen' klicken, um Agenten-DAG live zu sehen",
+    howToUseStep3: "3. Den Bericht und die Latenz-Wasserfallmetriken prüfen",
   },
   fr: {
     appNameSubtitle: "Moteur DAG d'Agents IA & Plateforme d'Observabilité",
@@ -409,5 +444,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     archFallbackDesc: "Permet aux recruteurs de tester immédiatement la plateforme sans clé d'API payante requise.",
     footerTagline: "Synapse Engine • Orchestration d'Agents IA pour Entreprises",
     footerStack: "Conçu avec Next.js 15, TypeScript, Tailwind et Suite de Tests Native",
+    agentReportTitle: "Rapport d'Analyse et d'Évaluation de l'Agent IA",
+    sampleBadCode: "Code avec Bogue (Condition de Concurrence)",
+    sampleReactLeak: "Fuite de Mémoire React",
+    sampleSecurity: "Scan de Vulnérabilité / Injection",
+    howToUseStep1: "1. Choisissez un modèle ou collez votre code ci-dessous",
+    howToUseStep2: "2. Cliquez sur 'Exécuter le Flux' pour voir l'exécution en direct",
+    howToUseStep3: "3. Consultez le rapport d'analyse et les métriques de latence",
   },
 };
