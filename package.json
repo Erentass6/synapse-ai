@@ -1,15 +1,14 @@
 {
   "name": "synapse-ai",
   "version": "1.0.0",
-  "description": "Production-Grade AI Agent Orchestration, Streaming Playground & LLM Observability Platform",
+  "description": "A visual prototype for building and inspecting AI workflow graphs",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test": "node --experimental-strip-types --test tests/engine.node-test.ts",
-    "test:watch": "node --experimental-strip-types --test --watch tests/engine.node-test.ts"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "clsx": "^2.1.1",

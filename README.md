@@ -1,165 +1,125 @@
-# ⚡ Synapse AI Engine
-### *Production-Grade AI Agent Orchestration, Streaming Studio & LLM Telemetry Platform*
+# Synapse AI
 
-[![CI & Code Quality](https://img.shields.io/badge/CI-Passing-10b981?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com)
-[![TypeScript Strict](https://img.shields.io/badge/TypeScript-5.7%20Strict-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Next.js 15](https://img.shields.io/badge/Next.js-15.1%20App%20Router-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
-[![Vitest Coverage](https://img.shields.io/badge/Vitest-100%25%20Passing-f59e0b?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev)
-[![Docker Ready](https://img.shields.io/badge/Docker-Multi--Stage-2496ed?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
+[![CI](https://github.com/Erentass6/synapse-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Erentass6/synapse-ai/actions/workflows/ci.yml)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
----
+An interactive portfolio prototype for designing multi-step AI workflows and inspecting their execution traces. Synapse combines a workflow canvas, a small TypeScript orchestration engine, and a streaming interface in one Next.js application.
 
-## 📌 Executive Summary
+> **Project status:** early-stage prototype. There is no hosted demo yet. The mock provider is useful for trying the interface without an API key; it is not a substitute for a production language model.
 
-**Synapse Engine** is a high-performance, full-stack AI platform designed to orchestrate complex multi-agent workflows, stream LLM tokens with microsecond precision, and visualize execution telemetry through real-time latency waterfalls and token economy accounting.
+## What it demonstrates
 
-Built from first principles to solve production LLM engineering bottlenecks: **state isolation**, **deterministic DAG execution**, **rate exhaustion**, and **observability blindspots**.
+- **Workflow execution:** validates node references and cycles, computes a topological order, resolves `{{input.*}}` and `{{nodes.*}}` templates, and records per-step results.
+- **Workflow canvas:** explore and run example workflows made from trigger, prompt, LLM, tool, condition, and output nodes.
+- **Streaming UI:** an SSE endpoint sends generated response text in chunks and the interface reports time-to-first-chunk and throughput estimates.
+- **Provider adapter:** uses Google Gemini when `GEMINI_API_KEY` is configured; otherwise it uses a keyword-based mock response.
+- **Built-in tools:** try basic text summarization, JSON parsing, sentiment heuristics, and arithmetic expressions in workflow steps.
+- **Execution safeguards:** the workflow endpoint validates its request shape, applies an in-memory token-bucket limiter, and checks prompts against simple patterns.
 
-> **Note for Hiring Managers & Reviewers**: Synapse includes an intelligent **Zero-Key Simulation Engine**. You can run the entire test suite, stream tokens, and execute multi-step agent graphs immediately without needing paid API keys. Live Google Gemini and OpenAI adapters activate automatically when environment variables are detected.
-
----
-
-## 🏛️ System Architecture
+## Architecture
 
 ```mermaid
-flowchart TD
-    subgraph Client["Presentation Layer (Next.js 15 / React 19 / Tailwind)"]
-        Canvas["Visual DAG Canvas (Node Editor)"]
-        Studio["Streaming Studio (SSE Token Hydration)"]
-        Telemetry["Telemetry Waterfall & Trace Viewer"]
-    end
-
-    subgraph API["Edge & Server Gateway"]
-        Router["/api/workflows/run & /api/stream"]
-        Validator["Zod Runtime Schema Validation"]
-        RateLimiter["Token-Bucket Rate Limiter (60 cap / 10 rps)"]
-        Guardrails["Prompt Injection & Malicious Pattern Guard"]
-    end
-
-    subgraph Core["Core Orchestration Engine"]
-        DAG["DAG Graph Parser & Kahn's Topological Sorter"]
-        Interpolation["Mustache Context & Upstream Variable Resolver"]
-        Tools["Sandboxed Tool Engine (Math, Regex, Sentiment, AST)"]
-    end
-
-    subgraph LLM["Multi-Model Gateway"]
-        Adapter["Model Router & Pricing Matrix"]
-        LiveGemini["Google Gemini 1.5 Pro / Flash"]
-        LiveOpenAI["OpenAI GPT-4o / GPT-4o-mini"]
-        LiveClaude["Anthropic Claude 3.5 Sonnet"]
-        MockEngine["Zero-Key High-Fidelity Simulation"]
-    end
-
-    Client <-->|SSE Stream & JSON RPC| API
-    API --> Validator --> RateLimiter --> Guardrails --> Core
-    Core --> LLM
-    LLM --> Adapter --> LiveGemini & LiveOpenAI & LiveClaude & MockEngine
+flowchart LR
+    UI[Next.js workflow canvas and streaming UI]
+    API[Next.js route handlers]
+    Engine[DAG validation and sequential execution]
+    Provider[Gemini adapter or keyword mock]
+    UI -->|JSON workflow / SSE prompt| API
+    API --> Engine
+    Engine --> Provider
+    Provider --> Engine
+    Engine -->|trace / response chunks| UI
 ```
 
----
+## Run locally
 
-## 🌟 Key Engineering Highlights
+### Requirements
 
-### 1. 🔄 Deterministic DAG Execution Engine (`src/core/dag-engine.ts`)
-- Implements **Kahn's Topological Sort Algorithm** (\(O(V + E)\)) with real-time circular dependency detection.
-- Guarantees upstream nodes (Triggers, Context Encoders, Tool outputs) resolve before downstream reasoning nodes fire.
-- Isolated failure containment: step-level error catching preserves the execution trace without terminating the process.
+- Node.js 20 or newer
+- npm
 
-### 2. ⚡ Real-Time Token Streaming (`src/app/api/stream/route.ts`)
-- Utilizes **Server-Sent Events (SSE)** over HTTP/2 for low-overhead unidirectional token hydration.
-- Live **Time-To-First-Token (TTFT)** stopwatch and live throughput telemetry (Tokens/Sec counter).
+### Install and start
 
-### 3. 📊 Full Observability & OpenTelemetry Tracing
-- Detailed **Latency Waterfall chart** tracking each pipeline span (Ingestion, Template Rendering, Inference, Tool execution).
-- Token economy calculator: calculates exact prompt vs completion costs down to \$0.000001 precision across 5 model pricing matrices.
-- OpenTelemetry-compliant JSON trace export for seamless APM (Datadog, LangSmith, Helicone) ingestion.
-
-### 4. 🛡️ Enterprise Security & Guardrails (`src/core/rate-limiter.ts`)
-- **Leaky Token-Bucket Rate Limiter**: Configurable burst capacity and replenishment frequency to avoid API quota starvation.
-- **Prompt Guardrails**: Regex and heuristic filtering blocking prompt injection, role-hijack, and script tags.
-
----
-
-## 💻 Tech Stack
-
-| Domain | Technology | Justification |
-| :--- | :--- | :--- |
-| **Framework** | Next.js 15 (App Router) | Server components, edge streaming, zero-layout-shift architecture |
-| **Language** | TypeScript 5.7 (Strict) | Zero `any` policy, full end-to-end type safety |
-| **Styling** | Tailwind CSS + Lucide | Linear-style dark aesthetic, responsive canvas grid |
-| **Testing** | Vitest 3.0 | Ultra-fast ESM test runner with mocking and coverage |
-| **Validation** | Zod 3.24 | Runtime schema verification for API payloads |
-| **DevOps** | Docker + GitHub Actions | Multi-stage distroless build, automated CI matrix |
-
----
-
-## 🚀 Quick Start (60 Seconds)
-
-### Prerequisites
-- Node.js 20+ (LTS recommended)
-- npm or pnpm
-
-### 1. Clone & Install
 ```bash
-git clone https://github.com/your-username/synapse-ai.git
+git clone https://github.com/Erentass6/synapse-ai.git
 cd synapse-ai
-npm install
+npm ci
+copy .env.example .env.local  # PowerShell
+npm run dev
 ```
 
-### 2. Run Automated Test Suite
+On macOS/Linux, use `cp .env.example .env.local` instead. Open [http://localhost:3000](http://localhost:3000).
+
+The app works without credentials using the mock provider. To enable live Gemini requests, add a Google Gemini API key to `.env.local`:
+
+```dotenv
+GEMINI_API_KEY=your_key_here
+```
+
+Keep `.env.local` private; it is excluded from Git. The checked-in `.env.example` contains no credentials.
+
+## Tests and CI
+
+Run the Vitest suite locally:
+
 ```bash
 npm test
 ```
-*Runs all Vitest unit tests verifying DAG cycle detection, topological sorting, rate limiting, and guardrails.*
 
-### 3. Start Development Server
-```bash
-npm run dev
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+GitHub Actions runs TypeScript type checking, the Vitest suite, and a production build for pushes and pull requests targeting `main`, `master`, or `develop`.
 
----
+## Docker
 
-## 🐳 Docker Deployment
-
-Run the complete stack (Synapse Engine + Redis) in isolated containers:
+With Docker Desktop installed, build and start the production container with:
 
 ```bash
 docker compose up --build
 ```
-Access the application at `http://localhost:3000`.
 
----
+The app is available at [http://localhost:3000](http://localhost:3000). Set `GEMINI_API_KEY` in your shell or an untracked `.env` file if you want to use the live Gemini adapter.
 
-## 🧪 Testing & Verification
+## API routes
 
-The test suite covers algorithmic edge cases and error bounds:
+### `POST /api/workflows/run`
 
-```bash
-✓ tests/dag-engine.test.ts (4 tests)
-  ✓ DAGEngine > should validate and compute topological order of an acyclic graph
-  ✓ DAGEngine > should detect cyclic graphs and throw DAGValidationError
-  ✓ DAGEngine > should interpolate template variables correctly
-  ✓ DAGEngine > should execute the workflow end-to-end and generate trace telemetry
+Accepts a workflow definition and optional input, then returns a trace. The request is schema-validated before execution.
 
-✓ tests/rate-limiter.test.ts (4 tests)
-  ✓ TokenBucketRateLimiter > should allow requests within bucket capacity
-  ✓ TokenBucketRateLimiter > should report accurate available tokens
-  ✓ PromptGuardrail > should detect prompt injection attempts
-  ✓ PromptGuardrail > should allow benign developer prompts
+```json
+{
+  "workflow": {
+    "id": "example",
+    "name": "Example workflow",
+    "nodes": [
+      { "id": "start", "type": "trigger", "title": "Start", "config": {} }
+    ],
+    "edges": []
+  },
+  "input": { "prompt": "Hello" }
+}
 ```
 
----
+### `POST /api/stream`
 
-## 📐 Architectural Decisions & Trade-Offs
+Accepts `{ "prompt": "...", "model": "mock-fast", "language": "en" }` and returns an SSE response. The current implementation produces the response first and then emits text chunks; it does not stream tokens directly from Gemini.
 
-### *Why SSE over WebSockets?*
-LLM inference is strictly unidirectional (prompt is sent once, tokens flow back progressively). WebSockets introduce stateful connection overhead, connection pool limits on edge workers, and complex sticky-session routing. HTTP/2 Server-Sent Events offer built-in reconnection, edge compatibility, and multiplexing over standard HTTPS.
+## Current scope and limitations
 
-### *Why Kahn's Algorithm over Simple DFS?*
-Kahn's algorithm operates with an explicit in-degree counter. This allows Synapse to immediately identify all independent root nodes and compute parallel execution batches, reducing DAG runtimes by up to 40% on parallelizable branches.
+This repo is intentionally explicit about what is implemented:
 
----
+- Workflow nodes execute in topological order, one at a time; independent branches are not run in parallel.
+- Gemini is the only live provider wired to an API. Other model choices currently use the mock response path.
+- The mock uses keyword-based templates and an artificial delay; it does not perform AI inference.
+- Token counts and costs are estimates based on a character heuristic and a static price table.
+- The rate limiter is in-memory and process-local; it is not a distributed limiter.
+- Prompt checks are simple pattern checks, not a security boundary. Do not expose this prototype as a public production service without a proper security review.
+- Telemetry is application-level trace data; OpenTelemetry export is not implemented.
 
-## 📄 License
-MIT License &copy; 2026. Built with engineering pride for elite teams.
+## Technology
+
+Next.js 15 · React 19 · TypeScript · Tailwind CSS · Zod · Vitest · GitHub Actions
+
+## License
+
+MIT. See [LICENSE](LICENSE).

@@ -1,14 +1,14 @@
-name: CI & Code Quality Suite
+name: CI
 
 on:
   push:
     branches: [main, master, develop]
   pull_request:
-    branches: [main, master]
+    branches: [main, master, develop]
 
 jobs:
   validate:
-    name: Typecheck, Lint & Automated Tests
+    name: Typecheck, tests & production build
     runs-on: ubuntu-latest
 
     strategy:
@@ -31,7 +31,7 @@ jobs:
       - name: Run TypeScript Strict Type Checking
         run: npx tsc --noEmit
 
-      - name: Run Vitest Unit & Integration Tests
+      - name: Run Vitest tests
         run: npm test
 
       - name: Verify Production Next.js Build
