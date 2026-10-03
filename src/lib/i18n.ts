@@ -74,6 +74,12 @@ export interface TranslationDictionary {
   howToUseStep1: string;
   howToUseStep2: string;
   howToUseStep3: string;
+  tabInspectorNode: string;
+  tabInspectorReport: string;
+  tabInspectorWaterfall: string;
+  tabInspectorJson: string;
+  clearTrace: string;
+  zoomReset: string;
 }
 
 export const translations: Record<Language, TranslationDictionary> = {
@@ -151,6 +157,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     howToUseStep1: "1. Choose a workflow template or paste your code snippet below",
     howToUseStep2: "2. Click 'Run Workflow' to watch the multi-agent DAG execute live",
     howToUseStep3: "3. Inspect the AI review and latency waterfall metrics",
+    tabInspectorNode: "Node Config",
+    tabInspectorReport: "AI Report",
+    tabInspectorWaterfall: "Waterfall",
+    tabInspectorJson: "Raw Trace",
+    clearTrace: "Clear",
+    zoomReset: "Fit View",
   },
   tr: {
     appNameSubtitle: "Yapay Zeka Ajan DAG Motoru & Telemetri Platformu",
@@ -226,6 +238,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     howToUseStep1: "1. Yukarıdan şablon seçin veya aşağıdaki kutuya test etmek istediğiniz kodu yapıştırın",
     howToUseStep2: "2. 'Akışı Çalıştır' butonuna tıklayarak ajanların adımlarını canlı izleyin",
     howToUseStep3: "3. Üretilen raporu ve milisaniye bazında şelale gecikmelerini inceleyin",
+    tabInspectorNode: "Düğüm Ayarları",
+    tabInspectorReport: "Ajan Raporu",
+    tabInspectorWaterfall: "Şelale & Gecikme",
+    tabInspectorJson: "Ham JSON",
+    clearTrace: "Temizle",
+    zoomReset: "Merkezle",
   },
   es: {
     appNameSubtitle: "Motor DAG de Agentes IA y Plataforma de Observabilidad",
@@ -301,6 +319,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     howToUseStep1: "1. Elija una plantilla o pegue su código en el cuadro inferior",
     howToUseStep2: "2. Haga clic en 'Ejecutar Flujo' para ver la ejecución en vivo",
     howToUseStep3: "3. Inspeccione el informe generado y las métricas de latencia",
+    tabInspectorNode: "Config Nodo",
+    tabInspectorReport: "Informe IA",
+    tabInspectorWaterfall: "Cascada",
+    tabInspectorJson: "JSON",
+    clearTrace: "Limpiar",
+    zoomReset: "Centrar",
   },
   de: {
     appNameSubtitle: "KI-Agenten DAG-Engine & Observability-Plattform",
@@ -376,6 +400,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     howToUseStep1: "1. Vorlage wählen oder eigenen Code in das Textfeld einfügen",
     howToUseStep2: "2. 'Workflow Ausführen' klicken, um Agenten-DAG live zu sehen",
     howToUseStep3: "3. Den Bericht und die Latenz-Wasserfallmetriken prüfen",
+    tabInspectorNode: "Knoten",
+    tabInspectorReport: "Bericht",
+    tabInspectorWaterfall: "Wasserfall",
+    tabInspectorJson: "JSON",
+    clearTrace: "Löschen",
+    zoomReset: "Zentrieren",
   },
   fr: {
     appNameSubtitle: "Moteur DAG d'Agents IA & Plateforme d'Observabilité",
@@ -451,5 +481,11 @@ export const translations: Record<Language, TranslationDictionary> = {
     howToUseStep1: "1. Choisissez un modèle ou collez votre code ci-dessous",
     howToUseStep2: "2. Cliquez sur 'Exécuter le Flux' pour voir l'exécution en direct",
     howToUseStep3: "3. Consultez le rapport d'analyse et les métriques de latence",
+    tabInspectorNode: "Nœud",
+    tabInspectorReport: "Rapport",
+    tabInspectorWaterfall: "Cascade",
+    tabInspectorJson: "JSON",
+    clearTrace: "Effacer",
+    zoomReset: "Centrer",
   },
 };
