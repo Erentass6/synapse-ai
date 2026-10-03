@@ -205,6 +205,7 @@ export default function Home() {
             codeSnippet: inputSnippet,
             topic: "Zero-Downtime Microservice Architecture",
             prompt: inputSnippet,
+            language: lang,
           },
         }),
       });
@@ -234,7 +235,7 @@ export default function Home() {
       const response = await fetch("/api/stream", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: streamPrompt, model: streamModel }),
+        body: JSON.stringify({ prompt: streamPrompt, model: streamModel, language: lang }),
       });
 
       if (!response.body) return;

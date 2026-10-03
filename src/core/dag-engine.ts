@@ -163,6 +163,7 @@ export class DAGEngine {
               userPrompt,
               temperature: node.config.temperature ?? 0.7,
               maxTokens: node.config.maxTokens ?? 1024,
+              language: initialInput.language || "tr",
             });
 
             nodeOutput = {

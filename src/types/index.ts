@@ -82,6 +82,7 @@ export interface LLMRequest {
   temperature?: number;
   maxTokens?: number;
   streaming?: boolean;
+  language?: string;
 }
 
 export interface LLMResponse {

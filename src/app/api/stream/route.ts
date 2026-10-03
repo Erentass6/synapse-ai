@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt, model = "mock-fast" } = await req.json();
+    const { prompt, model = "mock-fast", language = "tr" } = await req.json();
 
     if (!prompt) {
       return new Response(JSON.stringify({ error: "Prompt is required" }), {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of streamLLM(prompt, model as LLMModel)) {
+          for await (const chunk of streamLLM(prompt, model as LLMModel, language)) {
             const data = `data: ${JSON.stringify({ chunk })}\n\n`;
             controller.enqueue(encoder.encode(data));
           }
